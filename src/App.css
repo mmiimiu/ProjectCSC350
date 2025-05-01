@@ -1,0 +1,14 @@
+.todo-wrapper {
+  display: flex;
+  gap: 2rem;
+  background-color: #fcf3f6;
+}
+
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  width: 100%;
+  background-color: #fcf3f6;
+}

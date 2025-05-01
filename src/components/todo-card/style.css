@@ -1,0 +1,44 @@
+.todo-card {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: #ffd7e5;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  justify-content: space-between;
+}
+
+.todo-card__title {
+  font-weight: bold;
+  color: #880f3c;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.todo-actions {
+  display: flex;
+  gap: 1rem;
+}
+.todo-description {
+  font-size: 0.9rem;
+  color: #c29f9f;
+  margin-top: 4px;
+}
+
+button {
+  background-color: #8fb4ca;
+  color: rgb(255, 255, 255);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #076462;
+}
+button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}

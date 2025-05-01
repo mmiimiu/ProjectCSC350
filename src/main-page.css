@@ -1,0 +1,16 @@
+.main-page {
+  text-align: center;
+  padding: 20px;
+  min-height: calc(100svh - 84px);
+  display: grid;
+  place-items: center;
+  background-color: #fcebf1; 
+  color: #651e1e;
+}
+
+.main-page__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
