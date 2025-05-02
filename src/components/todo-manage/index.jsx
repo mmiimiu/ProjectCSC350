@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export const ManagePanel = ({
   createTodo,
@@ -7,15 +7,13 @@ export const ManagePanel = ({
   selectedId,
   setSelectedId,
 }) => {
-  const [todo, setTodo] = React.useState({
+  const [todo, setTodo] = useState({
     title: '',
     completed: false,
     description: '',
     id: Date.now(),
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
-    deletedAt: null,
-    isDeleted: false,
   });
 
   useEffect(() => {
@@ -40,33 +38,18 @@ export const ManagePanel = ({
       id: Date.now(),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      deletedAt: null,
-      isDeleted: false,
     });
     setSelectedId(null);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createTodo(todo);
-    resetForm();
-
-    if (selectedId) {
-      const updatedTodo = {
-        ...todo,
-        id: selectedId,
-        updatedAt: new Date().toISOString(),
-      };
-      updateTodo(selectedId, updatedTodo);
-    } else {
-      createTodo({
-        ...todo,
-        id: Date.now(),
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      });
-    }
-
+    const newTodo = {
+      ...todo,
+      id: selectedId || Date.now(),
+      updatedAt: new Date().toISOString(),
+    };
+    selectedId ? updateTodo(selectedId, newTodo) : createTodo(newTodo);
     resetForm();
   };
 
@@ -98,8 +81,7 @@ export const ManagePanel = ({
           onChange={(e) => setTodo({ ...todo, description: e.target.value })}
           rows="6"
           style={{ width: '100%', padding: '0.5rem' }}
-        ></textarea>
-
+        />
         <div
           style={{
             display: 'flex',
@@ -110,35 +92,26 @@ export const ManagePanel = ({
         >
           <button
             type="submit"
-            style={{
-              padding: '0.5rem 1.5rem',
-              backgroundColor: '#8abbd7',
-              border: 'none',
-              borderRadius: '5px',
-              color: 'white',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-            }}
+            disabled={todo.title.trim() === ''}
+            style={buttonStyle}
           >
-            Create
+            {selectedId ? 'Update' : 'Create'}
           </button>
-          <button
-            type="reset"
-            onClick={resetForm}
-            style={{
-              padding: '0.5rem 1.5rem',
-              backgroundColor: '#8abbd7',
-              border: 'none',
-              borderRadius: '5px',
-              color: 'white',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-            }}
-          >
+          <button type="button" onClick={resetForm} style={buttonStyle}>
             Cancel
           </button>
         </div>
       </form>
     </div>
   );
+};
+
+const buttonStyle = {
+  padding: '0.5rem 1.5rem',
+  backgroundColor: '#8abbd7',
+  border: 'none',
+  borderRadius: '5px',
+  color: 'white',
+  fontWeight: 'bold',
+  cursor: 'pointer',
 };
