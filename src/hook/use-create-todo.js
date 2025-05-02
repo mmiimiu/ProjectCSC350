@@ -1,51 +1,50 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export const useCreateTodo = () => {
   const [todos, setTodos] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
 
-  const createTodo = (newTodo) => {
-    const updatedTodos = [...todos, newTodo];
-    setTodos(updatedTodos);
-    localStorage.setItem('todos', JSON.stringify(updatedTodos));
-  };
-  const deleteTodo = (id) => {
-    const updatedTodos = todos.filter((todo) => todo.id !== id);
-    setTodos(updatedTodos);
-    localStorage.setItem('todos', JSON.stringify(updatedTodos));
-  };
-
-  const updateTodo = (id, updatedTodo) => {
-    console.log('updateTodo', updatedTodo);
-    const updatedTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, ...updatedTodo } : todo
-    );
-    setTodos(updatedTodos);
-    localStorage.setItem('todos', JSON.stringify(updatedTodos));
-  };
-
-  const getTodo = (id) => {
-    return todos.find((todo) => todo.id === id);
-  };
-
-  const getTodos = () => {
-    const storedTodos = localStorage.getItem('todos');
-    if (storedTodos) {
-      setTodos(JSON.parse(storedTodos));
-    }
-  };
-
-  React.useEffect(() => {
+  // โหลด todos จาก localStorage
+  useEffect(() => {
     const storedTodos = localStorage.getItem('todos');
     if (storedTodos) {
       setTodos(JSON.parse(storedTodos));
     }
   }, []);
 
+  // บันทึก todos ทุกครั้งที่มีการเปลี่ยนแปลง
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  }, [todos]);
+
+  const createTodo = (newTodo) => {
+    const todoWithId = {
+      ...newTodo,
+      id: crypto.randomUUID ? crypto.randomUUID() : Date.now(),
+      createdAt: new Date().toISOString(),
+    };
+    setTodos([...todos, todoWithId]);
+  };
+
+  const deleteTodo = (id) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
+  const updateTodo = (id, updatedTodo) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id
+          ? { ...todo, ...updatedTodo, updatedAt: new Date().toISOString() }
+          : todo
+      )
+    );
+  };
+
+  const getTodo = (id) => todos.find((todo) => todo.id === id);
+
   return {
     todos,
     getTodo,
-    getTodos,
     createTodo,
     deleteTodo,
     updateTodo,

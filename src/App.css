@@ -1,6 +1,9 @@
 .todo-wrapper {
   display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
+  justify-content: center;
+  padding: 1rem;
   background-color: #fcf3f6;
 }
 
@@ -10,5 +13,23 @@
   gap: 1rem;
   padding: 1rem;
   width: 100%;
+  max-width: 500px;
+  margin: auto;
   background-color: #fcf3f6;
+}
+
+@media (max-width: 600px) {
+  .todo-card {
+    font-size: 0.95rem;
+    padding: 1rem;
+  }
+
+  .todo-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  button {
+    width: 100%;
+  }
 }

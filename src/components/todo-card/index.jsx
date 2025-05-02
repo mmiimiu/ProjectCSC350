@@ -41,11 +41,18 @@ export const TodoCard = ({
       <div className="todo-actions" style={{ marginTop: '1rem', display: 'flex', gap: '1rem' }}>
         <button
           onClick={() => {
-            const confirmDelete = window.confirm('ลบทำไม ทำเสร็จแล้วหรอจ๊ะ?');
-            if (confirmDelete) {
+            if (Boolean(completed) === true) {
+              // ถ้าทำเสร็จแล้ว (ติ๊กแล้ว) ลบทันที
               deleteTodo(id);
+            } else {
+              // ถ้ายังไม่ทำเสร็จ แสดง popup ก่อน
+              const confirmDelete = window.confirm('ลบทำไม ทำเสร็จแล้วหรอจ๊ะ?');
+              if (confirmDelete) {
+                deleteTodo(id);
+              }
             }
-          }}
+          }}          
+
           style={{
             backgroundColor: '#dc3545',
             color: 'white',

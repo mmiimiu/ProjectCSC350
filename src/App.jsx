@@ -11,6 +11,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/app" element={<TodoApp />} />
+        <Route path="*" element={<MainPage />} />
       </Routes>
     </div>
   );
